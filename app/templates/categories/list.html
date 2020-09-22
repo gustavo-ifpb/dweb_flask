@@ -6,6 +6,11 @@
   <title>FlaskMovies - Categorias</title>
 </head>
 <body>
-  <h1>Categoria {{ category.name }}</h1>
+  <h1>Categorias</h1>
+  <ul>
+    {% for category in categories %}
+    <li>{{ category.name }}</li>
+    {% endfor %}
+  </ul>  
 </body>
 </html>
