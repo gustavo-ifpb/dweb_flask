@@ -38,9 +38,11 @@ def after_request(response):
 
 # Blueprint
 # Import a module / component using its blueprint handler variable (mod_auth)
+from app.modules.core.controllers import blueprint as blueprint_core
 from app.modules.categories.controllers import blueprint as blueprint_categories
 
 # Register blueprint(s)
+app.register_blueprint(blueprint_core)
 app.register_blueprint(blueprint_categories)
 
 

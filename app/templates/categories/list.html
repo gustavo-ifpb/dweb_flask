@@ -7,10 +7,14 @@
 </head>
 <body>
   <h1>Categorias</h1>
+  <a href="{{ url_for('categories.formGet') }}">Nova categoria</a>
   <ul>
     {% for category in categories %}
-    <li>{{ category.name }}</li>
+    <li>
+      <a href="{{ url_for('categories.detail', category_id=category.id) }}">{{ category.name }}</a> 
+      <a href="{{ url_for('categories.formUpdate', category_id=category.id) }}">Atualizar</a>
+    </li>
     {% endfor %}
-  </ul>  
+  </ul>
 </body>
 </html>
