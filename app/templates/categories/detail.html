@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlaskMovies - Categorias</title>
-</head>
-<body>
-  <h1>Categoria {{ category.name }}</h1>
-</body>
-</html>
+{% extends 'core/base.html' %}
+
+{% block hero %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        {{ category.name }}
+      </h1>
+      <h2 class="subtitle">
+        Veja os filmes da categoria <b>{{ category.name }}</b>
+      </h2>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+  {% for movie in category.movies %}
+  <button class="button is-light is-large"><a href="{{ url_for('movies.detail', movie_id=movie.id) }}">{{ movie.name }}</a></button>
+  {% endfor %}
+  <button class="button is-info is-light"><a href="{{ url_for('categories.formUpdate', category_id=category.id) }}">Editar</a></button>
+{% endblock %}

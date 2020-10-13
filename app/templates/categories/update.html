@@ -1,29 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlaskMovies - Nova categoria</title>
-  <style>
-    body {
-      line-height: 2em;
-    }
-    .error {
-      color: red;
-    }
-  </style>
-</head>
-<body>
-  <h1>Nova categoria</h1>
-  
+{% extends 'core/base.html' %}
+
+{% block hero %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Categorias
+      </h1>
+      <h2 class="subtitle">
+        Atualize o nome da categoria
+      </h2>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
   {% if error %}
-    <h5 class="error">{{ error }}</h5>
+  <div class="notification is-danger">
+    {{ error }}
+  </div>
   {% endif %}
 
   <form action="{{ url_for('categories.formUpdate', category_id=category.id) }}" method="POST">
-    <label for="name">Nome</label></br>
-    <input id="name" name="name" placeholder="Terror, Suspense, ..." value="{{ category.name }}"/></br>
-    <input type="submit" value="Enviar"/>
+    {{ form.csrf_token }}
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        {{ form.name(size=20, class_="input") }}
+      </div>
+    </div>
+    <div class="control">
+      <button class="button is-primary">Salvar</button>
+    </div>    
   </form>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block hero %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        {{ movie.name }}
+      </h1>
+      <h2 class="subtitle">
+        Este é um filme da categoria <b>{{ movie.category.name }}</b>
+      </h2>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+  <button class="button is-info is-light"><a href="{{ url_for('movies.formUpdate', movie_id=movie.id) }}">Editar</a></button>
+{% endblock %}

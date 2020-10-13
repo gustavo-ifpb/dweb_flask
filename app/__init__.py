@@ -9,6 +9,11 @@ from peewee import SqliteDatabase
 # Define the WSGI application object
 app = Flask(__name__)
 
+# CSRF
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect()
+csrf.init_app(app)
+
 
 # Configurations
 app.config.from_object('config')
@@ -39,15 +44,21 @@ def after_request(response):
 # Blueprint
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.modules.core.controllers import blueprint as blueprint_core
+from app.modules.users.controllers import blueprint as blueprint_users
 from app.modules.categories.controllers import blueprint as blueprint_categories
+from app.modules.movies.controllers import blueprint as blueprint_movies
 
 # Register blueprint(s)
 app.register_blueprint(blueprint_core)
+app.register_blueprint(blueprint_users)
 app.register_blueprint(blueprint_categories)
+app.register_blueprint(blueprint_movies)
 
 
 # Database:
+from app.modules.users.models import User
 from app.modules.categories.models import MovieCategory
+from app.modules.movies.models import Movie
 
 # This will create the database file
-db.create_tables([MovieCategory])
+db.create_tables([User, MovieCategory, Movie])

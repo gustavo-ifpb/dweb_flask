@@ -11,3 +11,4 @@ class User(core.BaseModel):
   email = peewee.CharField(unique=True)
   password = peewee.CharField()
   photo = peewee.CharField()
+  is_admin = peewee.BooleanField()

@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlaskMovies - Categorias</title>
-</head>
-<body>
-  <h1>Categorias</h1>
-  <a href="{{ url_for('categories.formGet') }}">Nova categoria</a>
-  <ul>
-    {% for category in categories %}
-    <li>
-      <a href="{{ url_for('categories.detail', category_id=category.id) }}">{{ category.name }}</a> 
-      <a href="{{ url_for('categories.formUpdate', category_id=category.id) }}">Atualizar</a>
-    </li>
-    {% endfor %}
-  </ul>
-</body>
-</html>
+{% extends 'core/base.html' %}
+
+{% block hero %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Categorias
+      </h1>
+      <h2 class="subtitle">
+        Escolha as categorias do filme
+      </h2>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block content %}
+  {% for category in categories %}
+  <button class="button is-light is-large"><a href="{{ url_for('categories.detail', category_id=category.id) }}">{{ category.name }}</a></button>
+  {% endfor %}
+  <button class="button is-info is-light is-large"><a href="{{ url_for('categories.formGet') }}">Nova categoria</a></button>
+{% endblock %}

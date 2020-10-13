@@ -4,13 +4,11 @@ from flask import Blueprint, render_template, request, redirect, url_for
 
 # Import module models (i.e. User)
 from .models import MovieCategory
-
+from .forms import CategoryForm
 
 
 # Define the blueprint: 'categories', set its url prefix: app.url/categories
 blueprint = Blueprint('categories', __name__, url_prefix='/categories')
-
-
 
 
 # ~~~~~~~~~~~~~
@@ -21,9 +19,6 @@ def index():
   return render_template('categories/list.html', categories=categories)
 
 
-
-
-
 # ~~~~~~~~~~~~~
 @blueprint.route('/detail/<int:category_id>', methods=['GET'])
 def detail(category_id):
@@ -32,41 +27,36 @@ def detail(category_id):
   return render_template('categories/detail.html', category=category)
 
 
-
-
-
 # ~~~~~~~~~~~~~
 @blueprint.route('/create', methods=['GET'])
 def formGet():
-  return render_template('categories/form.html')
-
+  form = CategoryForm(request.form)
+  return render_template('categories/form.html', form=form)
 
 
 @blueprint.route('/create', methods=['POST'])
 def formPost():
-  if request.form['name']:
-    
+  form = CategoryForm(request.form)
+  if form.validate_on_submit():
+
     try:
-      MovieCategory.create(name=request.form['name'])
+      MovieCategory.create(name=form.name.data)
     except peewee.IntegrityError:
-      return render_template('categories/form.html', error='Categoria já cadastrada!')
+      return render_template('categories/form.html', error='Categoria já cadastrada!', form=form)
 
     return redirect(url_for('categories.index'))
 
-  return render_template('categories/form.html')
-
-
-
-
+  return render_template('categories/form.html', form=form)
 
 
 # ~~~~~~~~~~~~~
 @blueprint.route('/update/<int:category_id>', methods=['GET', 'POST'])
 def formUpdate(category_id):
   category = MovieCategory.get(id=category_id)
+  form = CategoryForm(request.form, obj=category)
 
   if request.method == 'GET':
-    return render_template('categories/update.html', category=category)
+    return render_template('categories/update.html', category=category, form=form)
 
   else:
     if request.form['name']:
@@ -75,8 +65,8 @@ def formUpdate(category_id):
         category.name = request.form['name']
         category.save()
       except peewee.IntegrityError:
-        return render_template('categories/update.html', category=category, error='Categoria já cadastrada!')
+        return render_template('categories/update.html', category=category, error='Categoria já cadastrada!', form=form)
 
       return redirect(url_for('categories.index'))
       
-    return render_template('categories/update.html', category=category)
+    return render_template('categories/update.html', category=category, form=form)
